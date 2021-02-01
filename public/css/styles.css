@@ -1,0 +1,178 @@
+.bg-newsletter{
+  background-image: url("/img/bg-bottom.jpg");
+  background-position: bottom;
+}
+
+.separator_dashed{
+  border-bottom: 1px dashed #555555;
+}
+
+.font-90{
+  font-size: 90%;
+}
+
+.font-80{
+  font-size: 80%;
+}
+
+.counter{
+  position: absolute;
+  top:-10px;
+  right:3px;
+  color: white;
+  border-radius: 50px;
+  padding: 0px 6px 2px 6px;
+  font-size: 80%
+}
+
+.absolute-user{
+  position: absolute;
+  top:0;
+  right: 0;
+  max-width: 170px;
+  width: 170px;
+  z-index: 1000;
+  display: none;
+}
+
+.absolute-cart{
+  position: absolute;
+  top:0;
+  right: 0;
+  max-width: 350px;
+  width: 350px;
+  z-index: 1000;
+  display: none;
+}
+
+.navbar-relat:hover .absolute-user{
+  display: block;
+}
+
+.navbar-relat:hover .absolute-cart{
+  display: block;
+}
+
+.no-dec-href:hover{
+  text-decoration: none;
+}
+
+.champs_obligatoire:after{
+  content:"*";
+  color: #dc3545;
+  margin-left: 4px;
+}
+
+.max-width-50{
+  max-width: 50px;
+}
+
+.mirror-icon{
+  transform: rotateY(180deg);
+}
+
+.font-110{
+  font-size: 110%;
+}
+
+.category-name-container{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  transform:translateY(75%);
+  transition: .3s all;
+}
+
+.category-name{
+  background-color: rgba(0,0,0,0.5);
+  padding: 10px;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.category-name-href{
+  color: white !important;
+  text-decoration:none !important;
+}
+
+.product-thumbnail:hover{
+  border: 1px solid gray;
+}
+
+.admin-stat-control{
+  width:220px;
+  border: 1px solid gray;
+  border-radius: 5px;
+}
+
+.login-href{
+  color: black !important;
+  text-decoration:none !important;
+}
+
+.account-href{
+  color: black !important;
+  text-decoration:none !important;
+}
+
+.btn-href{
+  color: white !important;
+  text-decoration:none !important;
+}
+
+.cart-product-image{
+  width: 33%;
+  min-height: 115px;
+  background-size: 100% 100%;
+}
+.cart-product-informations{
+  width: 65%;
+  vertical-align: top;
+  padding-top: 3px;
+}
+
+#cart-products-container{
+  max-height: 500px;
+  overflow-y: scroll;
+}
+
+.rate{
+  cursor: pointer;
+}
+
+.red-effect-container{
+  overflow: hidden;
+}
+
+.red-effect-hover-left{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color:rgba(255,99,71,0.25);
+  transform: translateX(-100%);
+  transition: .5s all;
+}
+.red-effect-hover-right{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color:rgba(255,99,71,0.25);
+  transform: translateX(100%);
+  transition: .5s all;
+}
+
+.red-effect-container:hover .red-effect-hover-left {
+  transform: translateX(-50%);
+}
+.red-effect-container:hover .red-effect-hover-right{
+  transform: translateX(49.85%);
+}
+.red-effect-container:hover .category-name-container{
+  transform: translateY(50%);
+}

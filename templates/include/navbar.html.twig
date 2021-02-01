@@ -1,0 +1,120 @@
+<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+<!-- /////////////////////////////////////// NAVBAR /////////////////////////////////////////////////////////-->
+
+<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="{{path('app_homepage')}}">
+    <img src="{{asset('img/logo.png')}}" alt="logo">
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mx-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="{{path('app_homepage')}}">
+          ACCUEIL
+        </a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          CATÉGORIES
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{{path('list', { 'id': '1' })}}">Accessoires</a>
+          <a class="dropdown-item" href="{{path('list', { 'id': '2' })}}">Montres</a>
+          <a class="dropdown-item" href="{{path('list', { 'id': '3' })}}">Chaussures</a>
+          <a class="dropdown-item" href="{{path('list', { 'id': '4' })}}">Sacs</a>
+          <a class="dropdown-item" href="{{path('list', { 'id': '5' })}}">Lunettes</a>
+          <a class="dropdown-item" href="{{path('list', { 'id': '6' })}}">Vêtements</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">QUI SOMMES NOUS</a>
+      </li>
+
+    </ul>
+    <form class="form-inline my-2 my-lg-0" action="/search" method="get">
+      <div class="input-group ">
+        <input type="text" class="form-control" placeholder="Recherche" aria-label="Recherche" name="name" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+          <button class="input-group-text" id="basic-addon2" type="submit">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <div class="mt-2 navbar-relat">
+      <i class="fas fa-user mx-3 h4"></i>
+      <div class="position-relative ">
+        <div class="absolute-user bg-light-gray p-0">
+          <ul class="list-group">
+            {% if app.user != null %}
+            {% if app.user.roles|first == "ROLE_ADMIN" %}
+              <li class="list-group-item">
+                <a class="account-href" href="{{path('admin')}}">Administration</a>
+              </li>
+              {% else %}
+              <li class="list-group-item">
+                <a class="account-href" href="{{path('my-account')}}">Mon compte</a>
+              </li>
+              <li class="list-group-item">
+                <a class="account-href" href="{{path('my-orders')}}">Mes commandes</a>
+              </li>
+              {% endif %}
+              <li class="list-group-item">
+                <a class="account-href" href="{{path('app_logout')}}">Déconnexion</a>
+              </li>
+            {% else %}
+              <li class="list-group-item">
+                <a class="login-href" href="{{path('app_login')}}">Connexion</a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-2 position-relative navbar-relat">
+      <i class="fas fa-shopping-cart mx-3 h4"></i>
+      <div class="counter bg-danger">0</div>
+      <div class="position-relative ">
+        <div class="absolute-cart bg-light-gray p-1">
+          <ul class="list-group" id="cart-products-container"></ul>
+          <div class="empty-cart bg-white mt-1 pb-3 d-none">
+            <div class="mb-1 p-2">Votre panier est vide</div>
+          </div>
+          <div class="total-cart bg-white mt-1 pb-3 d-none">
+            <div class="font-weight-bold mb-1 p-2">Total :
+              <span class="total-cart-price"></span>€</div>
+            <div class="text-center">
+              <button data-toggle="modal" data-target="#validate-cart" class="btn btn-success">Passer la commande</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="validate-cart" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            <p>Êtes vous sûr de vouloir passer cette commande ?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+            <button type="button" class="btn-validate-cart btn btn-success" data-dismiss="modal">Valider</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>

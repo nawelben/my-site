@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste de produits{% endblock %}
+
+{% block body %}
+
+{% import "macros/product.html.twig" as productMacro %}
+
+<div class="container">
+
+  <div class="row">
+
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="{{ path('app_homepage') }}">Accueil</a>
+        </li>
+
+        <li class="breadcrumb-item active" aria-current="page">{{category.name|title}}</li>
+      </ol>
+    </nav>
+
+  </div>
+
+  <div class="row py-5">
+
+    {% for product in products %}
+      {{ productMacro.productThumbnail(product) }}
+    {% endfor %}
+
+
+
+  </div>
+</div>
+
+
+
+{% endblock %}

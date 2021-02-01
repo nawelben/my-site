@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recherche{% endblock %}
+
+{% block body %}
+
+
+<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+<!-- ///////////////////////////////////////      PRODUCTS         /////////////////////////////////////////// -->
+
+<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+{% import "macros/product.html.twig" as productMacro %}
+
+<div class="container-fluid">
+  <div class="row my-3">
+    {% for product in products %}
+      {{ productMacro.productThumbnail(product) }}
+    {% else %}
+    <div class="container p-5">
+      <div class="row">
+        <div class="col-12">
+          <div class="alert alert-danger p-5 text-center h4"><i class="fas fa-exclamation-triangle mr-3"></i>Aucun produit ne correspond à votre recherche</div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+
+
+
+{% endblock %}

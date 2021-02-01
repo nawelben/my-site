@@ -1,0 +1,34 @@
+.bg-black{
+  background-color: black;
+}
+.text-light-gray{
+  color: #bbbbbb;
+}
+
+.bg-light-gray{
+  background-color: #bbbbbb;
+}
+
+.btn-hover:hover{
+  background-color: #dc3545;
+  border: 1px solid #dc3545;
+}
+
+.text-link:hover{
+  color: #dc3545!important;
+}
+
+.dashboard-title{
+  color:#555555;
+  cursor: pointer;
+  transition: .8s all;
+}
+
+.dashboard-title:hover{
+  background-color: #BBBBBB !important;
+}
+
+
+.admin-view-toggle.active{
+  background-color: #BBBBBB !important;
+}

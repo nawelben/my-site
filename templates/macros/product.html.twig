@@ -1,0 +1,50 @@
+{% macro categoryThumbnail(category) %}
+
+    <div class="col-4 py-3 position-relative">
+      <a href="{{ path('list', { 'id': category.id }) }}">
+        <div class="position-relative red-effect-container">
+          <div class="red-effect-hover-left"></div>
+          <div class="red-effect-hover-right"></div>
+          <img src="/img/categories/ctg{{category.id}}.jpg" alt="" class="img-fluid">
+          <div class="category-name-container text-center p-3">
+            <div class="category-name">
+              <span class="category-name-href">{{category.name|title}}</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+
+    </div>
+
+{% endmacro %}
+
+{% macro productThumbnail(product) %}
+
+  <div class="product-thumbnail col-3 py-2">
+    <a href="{{ path('product', { 'id': product.id }) }}" style="text-decoration:none;">
+      <div>
+        <img src="/img/products/{{product.picture}}.jpg" class="d-block w-100" alt="...">
+
+        <span class="h5 text-dark d-block mb-0">
+          {{product.name}}
+        </span>
+
+        <div class="d-inline-block text-warning font-90 mb-1">
+          <small>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="far fa-star"></i>
+          </small>
+        </div>
+
+        <h5 class=" text-danger">
+          ${{(product.price)|number_format(2)}}
+        </h5>
+      </div>
+    </a>
+  </div>
+
+{% endmacro %}

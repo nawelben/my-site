@@ -1,0 +1,267 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration{% endblock %}
+
+{% block body %}
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-2 px-0 pt-4 pb-5 bg-light">
+        <ul class="list-group pl-0 rounded-0">
+          <li class="list-group-item border-0 px-2 dashboard-title  bg-light admin-view-toggle" data-target="users-container">
+            <i class="px-3 fas fa-user"></i>Utilisateurs</li>
+          <li class="list-group-item border-0 px-2 dashboard-title  bg-light admin-view-toggle" data-target="products-container">
+            <i class="px-3 fas fa-tags"></i>Produits</li>
+          <li class="list-group-item border-0 px-2 dashboard-title  bg-light admin-view-toggle" data-target="orders-container">
+            <i class="px-3 fas fa-shopping-cart"></i>Commandes</li>
+          <li class="list-group-item border-0 px-2 dashboard-title  bg-light admin-view-toggle active" data-target="stats-container">
+            <i class="px-3 fas fa-chart-line"></i>Statistiques</li>
+        </ul>
+      </div>
+      <div class="col py-5">
+
+        <div class="admin-container users-container d-none">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Adresse</th>
+                <th scope="col">Nb Commandes</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for user in users %}
+                <tr>
+                  <th scope="row">{{user.id}}</th>
+                  <td>{{user.name}}</td>
+                  <td>{{user.address}}</td>
+                  <td>{{user.orders|length}}</td>
+                  <td>
+                    {% if user.password != "" %}
+                    <button data-toggle="modal" data-target="#remove-user-{{user.id}}" class="btn btn-danger ban-user" data-user-id="{{user.id}}" title="Bannir l'utilisateur">
+                      <i class="fas fa-times"></i>
+                    </button>
+                    {% else %}
+                    [Banni]
+                    {% endif %}
+
+                    <div class="modal" id="remove-user-{{user.id}}" tabindex="-1">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-body">
+                            <p>Êtes vous sûr de vouloir bannir cet utilisateur ?</p>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                            <button type="button" class="btn-remove-user btn btn-danger" data-dismiss="modal" data-user-id="{{user.id}}">Bannir</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              {% endfor %}
+
+            </tbody>
+          </table>
+
+        </div>
+        <div class="admin-container products-container d-none">
+
+          <div class="text-center pb-4">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-product-modal">
+              Ajouter un produit
+            </button>
+          </div>
+
+          <!-- Modal -->
+          <div class="modal fade" id="add-product-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header text-center d-block">
+                  <h5 class="modal-title" id="exampleModalLabel">Ajouter un produit</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <form id="form-add-product" method="post" action="/admin/add-product" enctype="multipart/form-data">
+                  <div class="modal-body">
+
+                    <div class="form-group">
+                      <label for="exampleFormControlInput1">Désignation</label>
+                      <input type="text" class="form-control" name="name">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleFormControlSelect1">Catégorie</label>
+                      <select class="form-control" name="category-id">
+                        <option selected="selected" disabled="disabled">Choisir catégorie</option>
+                        {% for category in categories %}
+                          <option value="{{category.id}}">{{category.name}}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleFormControlInput1">Prix</label>
+                      <input type="number" step="0.01" class="form-control" name="price">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleFormControlInput1">photo</label>
+                      <input type="file" class="form-control" name="picture">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleFormControlTextarea1">Description</label>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="description"></textarea>
+                    </div>
+
+                  </div>
+                  <div class="modal-footer text-center d-block">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    <input type="submit" class="btn btn-primary" value="Enregistrer"/>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Désignation</th>
+                <th scope="col">Catégorie</th>
+                <th scope="col">Nb Paniers</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for product in products%}
+                <tr class="product-container" data-product-id="{{product.id}}">
+                  <th scope="row">{{product.id}}</th>
+                  <td>{{product.name}}</td>
+                  <td>{{product.category.name}}</td>
+                  <td>{{product.carts|length}}</td>
+                  <td>
+                    <button data-toggle="modal" data-target="#remove-product-{{product.id}}" class="btn btn-danger" title="Supprimer le produit" >
+                      <i class="fas fa-times"></i>
+                    </button>
+
+                    <div class="modal" id="remove-product-{{product.id}}" tabindex="-1">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-body">
+                            <p>Êtes vous sûr de vouloir supprimer ce produit ?</p>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                            <button type="button" class="btn-remove-product btn btn-danger" data-dismiss="modal" data-product-id="{{product.id}}">Supprimer</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+
+
+        </div>
+        <div class="admin-container orders-container d-none">
+
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Utilisateur</th>
+                <th scope="col">Articles</th>
+                <th scope="col">Valeur totale</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for order in orders %}
+                <tr>
+                  {% set sumOrder = 0 %}
+                  <th scope="row">{{order.id}}</th>
+                  <td>{{order.user.name}}</td>
+                  <td>
+                    {% for cart in order.carts %}-{{ cart.quantity }}
+                      *
+                      {{ cart.product.name }}<br/>
+                      {% set sumOrder = sumOrder + (cart.product.price * cart.quantity) %}
+                    {% endfor %}
+                  </td>
+                  <td>{{ sumOrder }}</td>
+                  <td>
+                    {% if order.state != "OK" %}
+                      <button class="btn btn-success btn-validate-order" title="Valider la commande" data-order-id="{{order.id}}">
+                        <i class="fas fa-check"></i>
+                      </button>
+                      {% else %}
+                      [Validée]
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+
+        </div>
+        <div class="admin-container stats-container">
+          <div class="d-block text-center">
+            <div class="m-2 d-inline-block admin-stat-control p-3">
+              <div class="text-left">
+                <i class="mb-4 text-danger fas fa-user h3"></i>
+              </div>
+              <div class="text-center h2 font-weight-bold">{{users|length}}</div>
+              <div class="text-center lead">Utilisateurs</div>
+            </div>
+            <div class="m-2 d-inline-block admin-stat-control p-3">
+              <div class="text-left">
+                <i class="mb-4 text-danger fas fa-shopping-cart h3"></i>
+              </div>
+              <div class="text-center h2 font-weight-bold">{{orders|length}}</div>
+              <div class="text-center lead">Commandes</div>
+            </div>
+          </div>
+          <div class="d-block text-center">
+            <div class="m-2 d-inline-block admin-stat-control p-3">
+              <div class="text-left">
+                <i class="mb-4 text-danger fas fa-shopping-bag h3"></i>
+              </div>
+              <div class="text-center h2 font-weight-bold">
+                {% set revenue = 0 %}
+                {% for order in orders %}
+                  {% for cart in order.carts %}
+                    {% set revenue = revenue + (cart.product.price * cart.quantity) %}
+                  {% endfor %}
+                {% endfor %}
+                {{ revenue }}
+              </div>
+              <div class="text-center lead">Revenus</div>
+            </div>
+            <div class="m-2 d-inline-block admin-stat-control p-3">
+              <div class="text-left">
+                <i class="mb-4 text-danger fas fa-tags h3"></i>
+              </div>
+              <div class="text-center h2 font-weight-bold">{{products|length}}</div>
+              <div class="text-center lead">Produits</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+  <script src="/js/admin.js"></script>
+
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+
+
+  <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+  <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+  <!-- ///////////////////////////////////////     CONNEXION         /////////////////////////////////////////// -->
+
+  <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+  <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+  <div class="container">
+    <div class="row">
+      <div class="col text-center py-5">
+        <h1 class="font-weight-light">CONNEXION</h1>
+      </div>
+    </div>
+    <div class="row mb-5">
+      <div class="col-md border p-4 py-5 mr-md-2 bg-light">
+        <h4 class="font-weight-light">CLIENTS ENREGISTRÉS</h4>
+        <hr>
+        <form method="post">
+          {% if error %}
+              <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+          {% endif %}
+
+          {% if app.user %}
+              <div class="mb-3">
+                  You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+              </div>
+          {% endif %}
+          <div class="form-group">
+            <p class="text-muted font-90">Si vous avez un compte, connectez vous avec votre adresse mail.</p>
+            <label for="exampleInputEmail1" class="champs_obligatoire text-muted">Email</label>
+            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1" class="champs_obligatoire text-muted">Mot de passe</label>
+            <input type="password" name="password" id="inputPassword" class="form-control" required>
+          </div>
+          <input type="hidden" name="_csrf_token"
+                 value="{{ csrf_token('authenticate') }}"
+          >
+          <button type="submit" class="btn btn-secondary btn-hover">CONNEXION</button>
+          <a href="#" class="text-muted text-link no-dec-href ml-4 font-80">Mot de passe oublié?</a>
+        </form>
+      </div>
+      {#
+          Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+          See https://symfony.com/doc/current/security/remember_me.html
+
+          <div class="checkbox mb-3">
+              <label>
+                  <input type="checkbox" name="_remember_me"> Remember me
+              </label>
+          </div>
+      #}
+      <div class="col-md border p-4 py-5 ml-md-3 bg-light">
+        <h4 class="font-weight-light">NOUVEAUX CLIENTS</h4>
+        <hr>
+        <p class="text-muted font-90">Créer un compte a plusieurs avantages: check-out rapide, garder plus d'une adresse, suivre les commandes et plus.</p>
+        <button type="submit" class="btn btn-secondary btn-hover"><a class="btn-href" href="{{ path('signup') }}">CREER UN COMPTE</a></button>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}

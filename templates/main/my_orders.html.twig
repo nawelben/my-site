@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes commandes{% endblock %}
+
+{% block body %}
+
+<div class="container pb-5">
+  <div class="row">
+    <div class="col">
+      <h3 class="text-center py-4">MES COMMANDES</h3>
+      <div class="admin-container orders-container">
+
+        {% if orders %}
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Articles</th>
+              <th scope="col">Valeur totale</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            {% for order in orders %}
+              <tr>
+                {% set sumOrder = 0 %}
+                <th scope="row">{{order.id}}</th>
+                <td>
+                  {% for cart in order.carts %}-{{ cart.quantity }}
+                    *
+                    {{ cart.product.name }}<br/>
+                    {% set sumOrder = sumOrder + (cart.product.price * cart.quantity) %}
+                  {% endfor %}
+                </td>
+                <td>{{ sumOrder }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <div class="alert alert-warning text-center">Vous n'avez aucune commande</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}

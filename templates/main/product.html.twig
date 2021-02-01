@@ -1,0 +1,247 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produit{% endblock %}
+
+{% block body %}
+
+  <!------------------------------------------------------------------------------------------------------------------------->
+  <!------------------------------------------------------------------------------------------------------------------------->
+
+  <!----------------------------------------------------- PRODUCT ----------------------------------------------------------->
+
+  <!------------------------------------------------------------------------------------------------------------------------->
+  <!------------------------------------------------------------------------------------------------------------------------->
+
+  <div class="container">
+    <div class="row">
+
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{{ path('app_homepage') }}">Accueil</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a href="{{ path('list', { 'id': product.category.id }) }}">{{product.category.name|title}}</a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">{{product.name}}</li>
+        </ol>
+      </nav>
+
+    </div>
+
+    <div class="row">
+      <div class="col-md">
+        <img src="/img/products/{{product.picture}}.jpg" class="d-block w-100" alt="...">
+      </div>
+      <div class="col-md">
+
+        <h3 class="font-weight-normal">
+          {{product.name}}
+        </h3>
+
+        <div class="font-90">
+          {% if product.reviews | length > 0 %}
+            {% set avgRate = 0 %}
+            {% for review in product.reviews %}
+              {% set avgRate = avgRate + review.rate %}
+            {% endfor %}
+            {% set avgRate = avgRate / product.reviews | length %}
+
+            {% set avgRate = avgRate | round(0, 'floor') %}
+          {% else %}
+            {% set avgRate = 0 %}
+          {% endif %}
+          <div class="d-inline-block text-warning">
+            {% if product.reviews | length > 0 %}
+              {% for i in 1..avgRate %}
+                <i class="fas fa-star"></i>
+              {% endfor %}
+
+              {% if avgRate < 5 %}
+                {% for i in (avgRate + 1)..5 %}
+                  <i class="far fa-star"></i>
+                {% endfor %}
+              {% endif %}
+            {% else %}
+              {% for i in 1..5 %}
+                <i class="far fa-star"></i>
+              {% endfor %}
+            {% endif %}
+
+          </div>
+          <div class="d-inline-block text-secondary mx-2">
+            {{product.reviews|length}}
+            Avis
+          </div>
+
+          <div class="d-inline-block text-secondary">
+
+            <span class="rate text-primary" data-toggle="modal" data-target="#exampleModal">Ajouter un avis</span>
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ajouter un avis</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  {% if app.user != null %}
+                  <form method="post" action="">
+                  <div class="modal-body">
+                      <div>Note :</div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="rate" id="exampleRadios1" value="1" checked="checked">
+                        <label class="form-check-label text-warning pl-2" for="exampleRadios1">
+                          <i class="fas fa-star"></i>
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="rate" id="exampleRadios2" value="2">
+                        <label class="form-check-label text-warning pl-2" for="exampleRadios2">
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="rate" id="exampleRadios3" value="3">
+                        <label class="form-check-label text-warning pl-2" for="exampleRadios3">
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="rate" id="exampleRadios3" value="4">
+                        <label class="form-check-label text-warning pl-2" for="exampleRadios4">
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="rate" id="exampleRadios3" value="5">
+                        <label class="form-check-label text-warning pl-2" for="exampleRadios5">
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                        </label>
+                      </div>
+                      <div class="form-group">
+                        <label for="message-text" class="col-form-label">Avis :</label>
+                        <textarea class="form-control" name="comment" id="message-text"></textarea>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Envoyer avis</button>
+                  </div>
+                  </form>
+
+                  {% else %}
+                  <div class="modal-body"><a href="{{ path('app_login') }}">Connectez-vous</a> pour pouvoir ajouter un avis.</div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+
+
+
+          </div>
+          <div class="d-inline-block text-primary">
+            <i class="far fa-check-square ml-2"></i>
+            En stock
+          </div>
+        </div>
+
+        <h2 class="font-weight-normal py-2 mt-2">
+          ${{(product.price)|number_format(2)}}
+        </h2>
+
+        <div class="my-3">
+          <div class="d-inline-block">
+            Quantité
+          </div>
+          <div class="d-inline-block">
+            <input type="number" class="input-quantity form-control max-width-50" value="1">
+          </div>
+          <div class="d-inline-block">
+            <button class="btn-add-to-cart btn btn-danger text-white" data-product-id="{{product.id}}">Ajouter au panier</button>
+          </div>
+        </div>
+
+        <p>{{product.description}}</p>
+
+        <div class="border p-3 mb-4">
+          <h5 class="text-secondary">AVIS CLIENTS</h5>
+          <hr>
+          {% for review in product.reviews%}
+            <div class="product-review mb-3">
+              <div class="font-110 font-weight-bold">{{review.user}}</div>
+              <div class="d-inline-block text-warning font-90">
+                {% for i in 1..review.rate %}
+                  <i class="fas fa-star"></i>
+                {% endfor %}
+
+                {% if review.rate < 5 %}
+                  {% for i in (review.rate + 1)..5 %}
+                    <i class="far fa-star"></i>
+                  {% endfor %}
+                {% endif %}
+
+              </div>
+              <div>{{review.comment}}</div>
+            </div>
+          {% else %}
+            <div>Aucun avis</div>
+          {% endfor %}
+
+        </div>
+
+      </div>
+
+      <div class="col-md-3">
+        <div class="d-inline-block">
+          <i class="fas fa-truck text-danger h3 mx-3 mirror-icon"></i>
+        </div>
+        <div class="d-inline-block">
+          <div class="text-danger">LIVRAISON GRATUITE</div>
+          <div class="font-90 text-secondary">À partir de $59.89</div>
+        </div>
+        <hr>
+        <div class="d-inline-block">
+          <i class="fas fa-life-ring text-danger h3 mx-3"></i>
+        </div>
+        <div class="d-inline-block">
+          <div class="text-danger">SERVICE CLIENT 24/7</div>
+          <div class="font-90 text-secondary">En ligne 24/24H
+          </div>
+        </div>
+        <hr>
+        <div class="d-inline-block">
+          <i class="fas fa-sync text-danger h3 mx-3"></i>
+        </div>
+        <div class="d-inline-block">
+          <div class="text-danger">RETOUR GRATUIT</div>
+          <div class="font-90 text-secondary">365 jours</div>
+        </div>
+        <hr>
+        <div class="d-inline-block">
+          <i class="fab fa-cc-paypal text-danger h3 mx-3"></i>
+        </div>
+        <div class="d-inline-block">
+          <div class="text-danger">METHODE DE PAIEMENT</div>
+          <div class="font-90 text-secondary">Paiement sécurisé</div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+{% endblock %}
